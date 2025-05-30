@@ -30,8 +30,10 @@ public class TodoListAcsess {
                     rs.getBoolean("completed")
                 );
                 list.add(t);
-            
 			}
+			 for(Todo t : list) {
+				 System.out.println(t.getName());// ここを追加
+			 }
 		}catch (SQLException | NamingException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +42,7 @@ public class TodoListAcsess {
 	}
 	
 	public Todo getTaskById(int id) {
-		String sql = "select * from players where id = ?;";
+		String sql = "select * from tasks where id = ?;";
 		Todo task = null;
 
 		try (

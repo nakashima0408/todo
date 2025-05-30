@@ -25,8 +25,10 @@ public class TodoListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<Todo> todos = tla.getAllTask();
+		
+	            
 		request.setAttribute("todos", todos);
-        RequestDispatcher rd = request.getRequestDispatcher("/todo.list.task.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/TodoListAcsess.jsp");
         rd.forward(request, response);
     }	
 
