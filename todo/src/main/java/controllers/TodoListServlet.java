@@ -16,7 +16,8 @@ import services.TodoListAcsess;
 /**
  * Servlet implementation class TodoListServlet
  */
-@WebServlet("/TodoListServlet")
+@WebServlet("/TodoListServlet")//このURLでアクセスした時にこのServletが動く。
+
 public class TodoListServlet extends HttpServlet {
 	private TodoListAcsess tla = new TodoListAcsess();
 
@@ -24,18 +25,19 @@ public class TodoListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		List<Todo> todos = tla.getAllTask();
-		
-	            
+		List<Todo> todos = tla.getAllTask();        
 		request.setAttribute("todos", todos);
+		//TodoListAcsess クラスからタスクリストを取得し、JSPに渡している。
         RequestDispatcher rd = request.getRequestDispatcher("/TodoListAcsess.jsp");
         rd.forward(request, response);
+        //TodoListAcsess.jsp に画面遷移（フォワード）する。
     }	
 
 	
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

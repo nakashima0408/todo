@@ -13,7 +13,7 @@ import utils.Db;
 
 public class TodoListAcsess {
 	
-	public List<Todo> getAllTask(){
+	public List<Todo> getAllTask(){//すべてのタスクを取得
 		List<Todo> list = new ArrayList<>();
 		String sql = "SELECT * FROM tasks ORDER BY deadline";
 
@@ -41,7 +41,7 @@ public class TodoListAcsess {
 			
 	}
 	
-	public Todo getTaskById(int id) {
+	public Todo getTaskById(int id) {//ID指定でタスクを取得
 		String sql = "select * from tasks where id = ?;";
 		Todo task = null;
 
@@ -101,7 +101,25 @@ public class TodoListAcsess {
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
-	}   	
+	}   
+	
+	public void insertTask(Todo todo) {
+		String sql = "INSERT INTO tasks(name, deadline, assignee, completed) VALUES (?, ?, ?, ?)";
+		
+		try(
+			Connection con = Db.open();
+			PreparedStatement ps = con.prepareStatement(sql);
+			){
+			ps.setString(1, todo.getName());
+			ps.setDate(2, todo.getDeadline());
+			ps.setString(3, todo.getAssignee());
+	        ps.setBoolean(4, todo.isCompleted());
+	        ps.executeUpdate();
+		}catch(SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+	
+	}
 	
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
