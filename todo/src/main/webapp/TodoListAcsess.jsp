@@ -58,7 +58,8 @@
    					 </tbody>
  			 </table>
   		<a href="TodoListAddServlet" class="btn btn-success">新規作成</a>
-  		<a href="TodoLogout" class="btn btn-dark">ログアウト</a>
+  		<a href="TodoListLogout.jsp" class="btn btn-dark">ログアウト</a>
+  	
 </div>
 </body>
 </html>

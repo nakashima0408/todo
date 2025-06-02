@@ -29,7 +29,7 @@
 <div class="container mt-5">
     <h2>新規タスク作成</h2>
     <form action="TodoListAddServlet" method="post">
-        <div class="mb-3">
+        <div class="mb-3"><!-- name="name" が重要。これがサーバー側で request.getParameter("name") と一致します。 -->
             <label for="name" class="form-label">タスク名</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>

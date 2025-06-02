@@ -18,7 +18,7 @@ public class TodoLoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		// TODO Auto-generated method stubzi 
-        response.sendRedirect("TodoList.jsp");
+        response.sendRedirect("TodoLogin.jsp");
     }
 		
 

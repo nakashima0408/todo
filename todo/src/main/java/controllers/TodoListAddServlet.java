@@ -24,17 +24,18 @@ public class TodoListAddServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// 新規作成フォーム表示のためのGETリクエストは taskCreate.jsp にフォワード
+		//URLで TodoListAddServlet にアクセスすると TodoListAdd.jsp が表示される仕組み
 		request.getRequestDispatcher("TodoListAdd.jsp").forward(request, response);
 	}
 
-	
+	//タスク新規作成フォームから送られたデータを処理して、DBに追加します。
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//name, deadline, assignee, completed は、フォームで入力された値。
 		String name = request.getParameter("name");
 		String deadlineStr = request.getParameter("deadline");
         String assignee = request.getParameter("assignee");

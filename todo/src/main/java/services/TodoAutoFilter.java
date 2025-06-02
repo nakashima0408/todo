@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @WebFilter("/*") 
+//ユーザーがログインしていない状態で、認証が必要なページにアクセスしようとした場合に、
+//自動的にログインページへリダイレクトさせる
 public class TodoAutoFilter implements Filter{
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
