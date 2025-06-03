@@ -26,9 +26,19 @@
         .btn {
             margin-right: 10px;
         }
+        .top-right-link {
+    		position: absolute;   
+    		top: 10px;            /* 上から10px */
+    		right: 10px;          /* 右から10px */
+    		font-weight: bold;    /* 好みで文字太く */
+ 		 }
 	</style>
 </head>
 <body>
+	<p class = "top-right-link">
+	<a href="TodoListUserCreate.jsp">新規ユーザー登録</a>
+	</p>
+	
 	<div class = "container mt-5">
 		<h2 class = "mb-4">ログイン</h2>
 		<form action="TodoLoginServlet" method = "post"><!--ログイン処理はサーブレット TodoLoginServlet が担当 -->

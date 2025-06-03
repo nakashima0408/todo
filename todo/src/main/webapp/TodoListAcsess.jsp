@@ -43,11 +43,14 @@
         					<c:when test="${not empty todos}"> <!--List<Todo> todos = tla.getAllTask();  --> 
             					<c:forEach var="t" items="${todos}">
                						 <tr>
-                   						<td><input type="checkbox" ${t.completed ? 'checked' : ''} disabled></td>
-                   						 <td><a href="TodoListEditServlet?id=${t.id}">${t.name}</a></td>
+                   						<td><input type="checkbox" <c:if test="${t.completed}">checked</c:if> disabled>
+                   						</td>
+                   						 <td><a href="TodoListEditServlet?id=${t.id}">${t.name}</a>
+                   						 </td>
                     					<td>${t.deadline}</td>
                     					<td>${t.assignee}</td>
                     					<td>${t.completed}</td>
+                    					<td><c:out value="${t.completed ? '完了' : '未完了'}"/></td>
                						 </tr>
            						 </c:forEach>
        						 </c:when>

@@ -44,7 +44,7 @@
             <input type="text" class="form-control" id="assignee" name="assignee" value="${todo.assignee}" required>
         </div>
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="completed" name="completed" value="true" ${todo.completed ? "checked" : ""}>
+            <input type="checkbox" class="form-check-input" id="completed" name="completed" value="true" <c:if test="${todo.completed}">checked</c:if>>
             <label class="form-check-label" for="completed">完了済み</label>
         </div>
         <button type="submit" class="btn btn-primary">更新</button>

@@ -66,7 +66,7 @@
 	<h1>警告</h1>
   <p>本当にこの闇から抜け出す？<br>ログアウトすると戻れないぞ…</p>
   
-  <form action="LogoutServlet" method="post">
+  <form action="TodoLogin.jsp" method="post">
     <button type="submit">ログアウト</button>
   </form>
   
