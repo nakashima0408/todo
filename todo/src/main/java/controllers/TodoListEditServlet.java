@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import jakarta.servlet.ServletException;
@@ -10,9 +9,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import services.Todo;
 import services.TodoListAcsess;
+import services.User;
 
 /**
  * Servlet implementation class TodoListEditServlet
@@ -23,51 +24,70 @@ public class TodoListEditServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String idStr = request.getParameter("id");// URLパラメータ「id」を取得
-		if(idStr == null){			// idが無ければ一覧へリダイレクト
-			response.sendRedirect("TodoListServlet");
-			return;
-		}
 		
-		int id = Integer.parseInt(idStr);// idをintに変換
-		Todo todo = tla.getTaskById(id);// サービスから該当タスクを取得
-		if(todo == null) {
-			response.sendRedirect("TodoListServlet");// タスクがなければリダイレクト
-			return;
-		}
-		
-		request.setAttribute("todo", todo);// 取得したタスクをリクエスト属性にセット
-		//setAttribute(String name, Object o) は、リクエストオブジェクトに
-		//任意の名前（name）でデータ（o）を保存（属性としてセット）するメソッドです。
-		request.getRequestDispatcher("TodoListEdit.jsp").forward(request, response);// 編集用JSPへ
-	}
+		 HttpSession session = request.getSession(false);
+		 if (session == null || session.getAttribute("user") == null) {
+	            response.sendRedirect("TodoLogin.jsp");
+	            return;
+		 }
+		 
+		 User user = (User) session.getAttribute("user");
+	        int id = Integer.parseInt(request.getParameter("id"));
+
+	        TodoListAcsess tla = new TodoListAcsess();
+	        Todo todo = tla.getTaskById(id, user.getId());
+
+	        if (todo == null) {
+	            response.sendRedirect("TodoListServlet");
+	            return;
+	        }
+
+	        request.setAttribute("todo", todo);
+	        request.getRequestDispatcher("TodoListEdit.jsp").forward(request, response);
+	    }
+		 
+		 
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(false);
 		
+		if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("TodoLogin.jsp");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
+
+        
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
         String deadlineStr = request.getParameter("deadline");
         String assignee = request.getParameter("assignee");
         String completedStr = request.getParameter("completed");
-
         boolean completed = "true".equals(completedStr);
 
         Date deadline = null;
         
         try {
         	java.util.Date parsed = new SimpleDateFormat("yyyy-MM-dd").parse(deadlineStr);
-            deadline = new Date(parsed.getTime());
-        } catch (ParseException e) {
+            deadline = new Date(parsed.getTime()); // ← java.sql.Dateに変換
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        Todo todo = new Todo(id, name, deadline, assignee, completed);
-        tla.updateTask(todo);
-        
-        response.sendRedirect("TodoListServlet");
-	}
 
+        Todo todo = new Todo();
+        todo.setId(id);
+        todo.setName(name);
+        todo.setDeadline(deadline);
+        todo.setAssignee(assignee);
+        todo.setCompleted(completed);
+        todo.setUserId(user.getId());
+
+        TodoListAcsess tla = new TodoListAcsess();
+        tla.updateTask(todo);
+
+        response.sendRedirect("TodoListServlet");
+    }
 }

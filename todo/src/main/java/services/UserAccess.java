@@ -24,7 +24,7 @@ public class UserAccess {
            
             
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("username"));
+                return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
             }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();

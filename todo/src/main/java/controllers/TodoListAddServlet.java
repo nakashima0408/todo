@@ -2,25 +2,24 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import services.Todo;
 import services.TodoListAcsess;
+import services.User;
 
 /**
  * Servlet implementation class TodoListAddServlet
  */
 @WebServlet("/TodoListAddServlet")
 public class TodoListAddServlet extends HttpServlet {
-	 private TodoListAcsess tla = new TodoListAcsess();
-
+	 
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -32,9 +31,15 @@ public class TodoListAddServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		HttpSession session = request.getSession(false);
+
 		request.setCharacterEncoding("UTF-8");
 		
+		if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("TodoLogin.jsp");
+            return;
+        }
+
 		//name, deadline, assignee, completed は、フォームで入力された値。
 		String name = request.getParameter("name");
 		String deadlineStr = request.getParameter("deadline");
@@ -43,23 +48,25 @@ public class TodoListAddServlet extends HttpServlet {
         
         //取得した completedStr（文字列）を論理値（boolean）に変換しています。
         boolean completed = "true".equals(completedStr);
-        
         Date deadline = null;
         
         try {
-        	java.util.Date parsed = new SimpleDateFormat("yyyy-MM-dd").parse(deadlineStr);
-        	deadline = new Date(parsed.getTime());
-        }catch(ParseException e) {
+        	deadline = Date.valueOf(deadlineStr); // yyyy-MM-dd形式前提
+        }catch(IllegalArgumentException e) {
         	e.printStackTrace();
         }
-		
+        
+        User user = (User) session.getAttribute("user");
+        
         //空の Todo オブジェクトを作成し、フォームから取得した値をセットしています。
         Todo newTodo = new Todo();
         newTodo.setName(name);
         newTodo.setDeadline(deadline);
         newTodo.setAssignee(assignee);
         newTodo.setCompleted(completed);
-        
+        newTodo.setUserId(user.getId());  // ユーザーIDをセット
+
+        TodoListAcsess tla = new TodoListAcsess();
         tla.insertTask(newTodo);
         
         response.sendRedirect("TodoListServlet");

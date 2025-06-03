@@ -9,17 +9,19 @@ public class Todo {
     private Date deadline;  // 例えば "2025-04-25"
     private String assignee;
     private boolean completed;
+    private int userId;
     
     public Todo() {
     	
     }
     
-    public Todo(int id, String name, Date deadline, String assignee, boolean completed) {
+    public Todo(int id, String name, Date deadline, String assignee, boolean completed, int userId) {
         this.id = id;
         this.name = name;
         this.deadline = deadline;
         this.assignee = assignee;
         this.completed = completed;
+        this.userId = userId;
     }
 
 	public int getId() {
@@ -62,6 +64,12 @@ public class Todo {
 		this.completed = completed;
 	}
     
-    
+	public int getUserId() {
+	    return userId;
+	}
+	public void setUserId(int userId) {
+	    this.userId = userId;
+	}
+
 
 }
