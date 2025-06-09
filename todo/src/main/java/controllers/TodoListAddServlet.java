@@ -37,7 +37,7 @@ public class TodoListAddServlet extends HttpServlet {
 		
 		if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect("TodoLogin.jsp");
-            return;
+             return;
         }
 
 		//name, deadline, assignee, completed は、フォームで入力された値。
